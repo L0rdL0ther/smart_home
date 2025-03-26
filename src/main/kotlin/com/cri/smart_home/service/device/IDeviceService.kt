@@ -107,6 +107,7 @@ class IDeviceService(
     override fun update(main: Device, update: UDevice): RDevice {
         update.name?.let { main.name = it }
         update.type?.let { main.type = it }
+        update.esp32Id?.let { update.esp32Id = it }
         update.currentValue?.let { main.currentValue = it }
         update.controlType?.let { main.controlType = it }
         return mapper.createResponse(save(main))

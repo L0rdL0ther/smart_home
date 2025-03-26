@@ -13,6 +13,7 @@ class WebConfig : WebMvcConfigurer {
             "http://localhost:5174",
             "http://192.168.1.26:5174",
             "https://dev.watchanim.com",
+            "http://192.168.1.5:5173",
             "https://watchanim.com"
         ).allowedMethods(
             "GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"
