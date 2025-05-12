@@ -18,7 +18,7 @@ plugins {
 group = "com.cri"
 version = "0.0.1-SNAPSHOT"
 
-val baseLibLatestVersion = getLatestVersion("wanim-library/com/wanim_ms/wanim-library")
+val baseLibLatestVersion = "0.0.1"
 
 java {
     toolchain {
@@ -29,14 +29,8 @@ java {
 repositories {
     mavenCentral()
     maven {
-        url = uri("http://192.168.1.25:8232/repository/wanim-library/")
-        isAllowInsecureProtocol = true
-        credentials {
-            username =  "admin"
-            password = "QngrDP@A2ci5I^dzeL7aU\$I8g!Eg*694"
-        }
+        url = uri("https://repo.cr-i.tr/repository/wanim-library/")
     }
-
 }
 
 dependencies {
@@ -80,38 +74,3 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-
-fun getLatestVersion(repositoryPath: String): String {
-    val client = HttpClient.newHttpClient()
-    val url = "http://192.168.1.25:8232/repository/$repositoryPath/maven-metadata.xml"
-    val authHeader = getAuthHeader()
-
-    val request = HttpRequest.newBuilder()
-        .uri(URI.create(url))
-        .header("Authorization", authHeader)
-        .build()
-
-    val response = client.send(request, HttpResponse.BodyHandlers.ofString())
-
-    return if (response.statusCode() == 200) {
-        val xmlContent = response.body()
-        val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlContent.byteInputStream())
-        getLatestVersionFromXml(document)
-    } else {
-        println("Request failed with status: ${response.statusCode()}")
-        "Error"
-    }
-}
-
-fun getLatestVersionFromXml(document: org.w3c.dom.Document): String {
-    val metadataElement = document.getElementsByTagName("metadata").item(0) as Element
-    val versioningElement = metadataElement.getElementsByTagName("versioning").item(0) as Element
-    val latestElement = versioningElement.getElementsByTagName("latest").item(0) as Element
-    return latestElement.textContent
-}
-
-fun getAuthHeader(): String {
-    val usernameEnv = System.getenv("REPO_USERNAME") ?: "admin"
-    val passwordEnv = System.getenv("REPO_PASSWORD") ?: "QngrDP@A2ci5I^dzeL7aU\$I8g!Eg*694"
-    return "Basic " + Base64.getEncoder().encodeToString("$usernameEnv:$passwordEnv".toByteArray())
-}

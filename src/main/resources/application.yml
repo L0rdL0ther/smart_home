@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://192.168.1.25:5432/home-test
+    url: jdbc:postgresql://localhost:5432/smart-home
     username: admin
     password: admin
   jpa:
@@ -8,6 +8,7 @@ spring:
       ddl-auto: update
   application:
     name: smart_home
+
 jwt:
-  secret: tLPwE!Tqo263nH1vGqhJCztiC5VH@HxKoaqq86GoSUWeelyUSqP@9AQUvoTbZ!2yj^xQU@ic$N$ljNIGVifgzUxy5OGqdPkfltuMj%o$W@nNajRa%osN7VexIMKl8S7H
+  secret: wwwwQJIKGS78nt7686NSF7nfs76NFS7689w.i,e21;+E'!EQ'ew
   expiration: 86400000
